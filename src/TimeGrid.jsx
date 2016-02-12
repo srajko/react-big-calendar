@@ -34,7 +34,8 @@ let TimeGrid = React.createClass({
     min: React.PropTypes.instanceOf(Date),
     max: React.PropTypes.instanceOf(Date),
     dayFormat: dateFormat,
-    rtl: React.PropTypes.bool
+    rtl: React.PropTypes.bool,
+    DayComponent: React.PropTypes.func
   },
 
   getDefaultProps(){
@@ -178,18 +179,23 @@ let TimeGrid = React.createClass({
   },
 
   renderHeader(range){
-    let { dayFormat, culture } = this.props;
+    let { dayFormat, culture, DayComponent } = this.props;
 
-    return range.map((date, i) =>
-      <div key={i}
-        className='rbc-header'
-        style={segStyle(1, this._slots)}
-      >
-        <a href='#' onClick={this._headerClick.bind(null, date)}>
-          { localizer.format(date, dayFormat, culture) }
-        </a>
-      </div>
-    )
+    return range.map((date, i) => {
+      const onClick = this._headerClick.bind(null, date);
+      const text = localizer.format(date, dayFormat, culture);
+      const dayLink = DayComponent ?
+        <DayComponent onClick={onClick} text={text} date={date}/> :
+        <a href='#' onClick={onClick}>{text}</a>;
+
+      return (
+        <div key={i}
+          className='rbc-header'
+          style={segStyle(1, this._slots)}
+          >
+            {dayLink}
+        </div>);
+    })
   },
 
   _headerClick(date, e){
