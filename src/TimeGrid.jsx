@@ -247,7 +247,7 @@ export default class TimeGrid extends Component {
               container={()=> this.refs.allDay}
               selectable={this.props.selectable}
             />
-            <div style={{ zIndex: 1, position: 'relative' }}>
+            <div className='rbc-allday-events'>
               { this.renderAllDayEvents(range, levels) }
             </div>
           </div>
