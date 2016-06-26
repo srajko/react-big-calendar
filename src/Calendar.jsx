@@ -16,6 +16,7 @@ import viewLabel from './utils/viewLabel';
 import moveDate from './utils/move';
 import VIEWS from './Views';
 import Toolbar from './Toolbar';
+import EventWrapper from './EventWrapper';
 
 import omit from 'lodash/object/omit';
 import defaults from 'lodash/object/defaults';
@@ -292,6 +293,7 @@ let Calendar = React.createClass({
      */
     components: PropTypes.shape({
       event: elementType,
+      eventWrapper: elementType,
 
       toolbar: elementType,
 
@@ -384,7 +386,8 @@ let Calendar = React.createClass({
 
     let viewComponents = defaults(
       components[view] || {},
-      omit(components, names)
+      omit(components, names),
+      { eventWrapper: EventWrapper }
     )
 
     let ToolbarToRender = components.toolbar || Toolbar
